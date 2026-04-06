@@ -1,0 +1,22 @@
+# Dependencies
+node_modules/
+
+# Environment variables (Secrets)
+.env
+.env.local
+
+# Logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Build outputs
+dist/
+build/
+
+# Testing
+coverage/
+
+# OS/IDE files
+.DS_Store
+.vscode/
