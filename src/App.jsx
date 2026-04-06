@@ -631,7 +631,7 @@ export default function App() {
               © {new Date().getFullYear()} Shopee Link Tool · Privacy & Terms
             </p>
             <p className="text-[10px] opacity-25 font-semibold flex items-center gap-1.5">
-              Made with <span className="text-red-500/80 animate-bounce-soft inline-block text-[8px]">❤️</span> by <span className="opacity-100 text-shopee-orange/80">Trung Nguyen</span>
+              Made with <span className="text-red-500/80 animate-bounce-soft inline-block text-[8px]">❤️</span> by <span className="opacity-100 text-shopee-orange/80">Trung Nguyễn</span>
             </p>
           </div>
         </div>
