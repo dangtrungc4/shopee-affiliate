@@ -1,6 +1,11 @@
 import { useState, useCallback, useRef } from 'react'
 
 const AFFILIATE_ID = '17355830344'
+const FB_POST_URL = "https://www.facebook.com/trungnguyen.dev.1803/posts/pfbid0nurMwD5WsuzuarhkEyhySBk6PzThZHCas2mJPoY6c6HKsK2iHc4SPgn1AXaNJ3uql"
+const COMMENT_TEMPLATE = `🔥 Deal ngon đây:
+👉 {LINK}
+
+#dealhot #review`
 
 // ── helpers ──────────────────────────────────────────────────────────────────
 // ── helpers ──────────────────────────────────────────────────────────────────
@@ -120,6 +125,61 @@ function Toast({ message, type, visible }) {
   )
 }
 
+// ── Guide Overlay ─────────────────────────────────────────────────────────────
+function GuideOverlay({ visible, onClose }) {
+  if (!visible) return null
+
+  return (
+    <div 
+      className="fixed inset-0 z-[60] flex items-center justify-center px-4 animate-fade-in"
+      style={{ background: 'rgba(0, 0, 0, 0.7)', backdropFilter: 'blur(8px)' }}
+      onClick={onClose}
+    >
+      <div 
+        className="glass-dark max-w-sm w-full rounded-3xl p-8 shadow-2xl animate-slide-up"
+        onClick={e => e.stopPropagation()}
+      >
+        <div className="text-center mb-6">
+          <div className="w-16 h-16 bg-blue-500/20 rounded-full flex items-center justify-center mx-auto mb-4">
+            <span className="text-3xl">📋</span>
+          </div>
+          <h3 className="text-xl font-bold text-white mb-2">Đã copy nội dung!</h3>
+          <p className="text-white/50 text-sm">Dán vào comment Facebook để hoàn tất:</p>
+        </div>
+
+        <div className="space-y-4 mb-8">
+          {[
+            { step: '1', text: 'Click vào ô comment bài viết' },
+            { step: '2', text: 'Nhấn Ctrl + V (hoặc giữ → Paste)' },
+            { step: '3', text: 'Nhấn Enter' }
+          ].map((item, idx) => (idx < 2 ? (
+            <div key={item.step} className="flex items-center gap-4">
+              <div className="w-8 h-8 rounded-lg bg-white/5 border border-white/10 flex items-center justify-center shrink-0 text-white/40 text-xs font-bold">
+                {item.step}
+              </div>
+              <p className="text-white/80 text-sm font-medium">{item.text}</p>
+            </div>
+          ) : (
+            <div key={item.step} className="flex items-center gap-4">
+              <div className="w-8 h-8 rounded-lg bg-blue-500/20 border border-blue-500/30 flex items-center justify-center shrink-0 text-blue-400 text-xs font-bold">
+                {item.step}
+              </div>
+              <p className="text-blue-400 text-sm font-bold">{item.text}</p>
+            </div>
+          )))}
+        </div>
+
+        <button
+          onClick={onClose}
+          className="w-full py-3.5 rounded-xl bg-white text-black font-bold text-sm hover:bg-white/90 transition-all duration-200"
+        >
+          Đã hiểu
+        </button>
+      </div>
+    </div>
+  )
+}
+
 // ── History Item ──────────────────────────────────────────────────────────────
 function HistoryItem({ item, onCopy, onReuse }) {
   return (
@@ -157,6 +217,7 @@ export default function App() {
   const [copied, setCopied] = useState(false)
   const [history, setHistory] = useState([])
   const [showHistory, setShowHistory] = useState(false)
+  const [showGuide, setShowGuide] = useState(false)
   const [toast, setToast] = useState({ visible: false, message: '', type: 'success' })
   const inputRef = useRef(null)
 
@@ -270,9 +331,28 @@ export default function App() {
     }
   }, [])
 
+  const handleQuickComment = useCallback(async () => {
+    if (!result) return
+    
+    try {
+      const finalContent = COMMENT_TEMPLATE.replace('{LINK}', result)
+      await navigator.clipboard.writeText(finalContent)
+      showToast('Đã copy nội dung comment! 📋', 'success')
+      setShowGuide(true)
+      
+      // Delay to ensure user sees toast and clipboard is ready
+      setTimeout(() => {
+        window.open(FB_POST_URL, '_blank')
+      }, 800)
+    } catch (err) {
+      showToast('Lỗi copy, vui lòng thử lại', 'error')
+    }
+  }, [result, showToast])
+
   return (
     <div className="min-h-screen bg-mesh dot-pattern flex flex-col">
       <Toast {...toast} />
+      <GuideOverlay visible={showGuide} onClose={() => setShowGuide(false)} />
 
       {/* ── Header ── */}
       <header className="pt-10 pb-4 px-4 text-center animate-fade-in">
@@ -384,18 +464,28 @@ export default function App() {
                   </p>
                 </div>
 
-                <button
-                  id="copy-btn"
-                  onClick={() => handleCopy()}
-                  className={`w-full flex items-center justify-center gap-2.5 py-3.5 rounded-xl font-bold text-sm transition-all duration-300 ${
-                    copied
-                      ? 'bg-emerald-500/20 border border-emerald-500/30 text-emerald-400'
-                      : 'bg-white/10 hover:bg-white/15 border border-white/10 hover:border-white/20 text-white'
-                  }`}
-                >
-                  {copied ? <IconCheck /> : <IconCopy />}
-                  {copied ? 'Đã copy!' : 'Copy Link Affiliate'}
-                </button>
+                <div className="flex flex-col gap-3">
+                  <button
+                    id="copy-btn"
+                    onClick={() => handleCopy()}
+                    className={`w-full flex items-center justify-center gap-2.5 py-3.5 rounded-xl font-bold text-sm transition-all duration-300 ${
+                      copied
+                        ? 'bg-emerald-500/20 border border-emerald-500/30 text-emerald-400'
+                        : 'bg-white/10 hover:bg-white/15 border border-white/10 hover:border-white/20 text-white'
+                    }`}
+                  >
+                    {copied ? <IconCheck /> : <IconCopy />}
+                    {copied ? 'Đã copy!' : 'Copy Link Affiliate'}
+                  </button>
+
+                  <button
+                    id="quick-comment-btn"
+                    onClick={handleQuickComment}
+                    className="w-full flex items-center justify-center gap-2.5 py-3.5 rounded-xl font-bold text-sm bg-blue-600 hover:bg-blue-500 text-white transition-all duration-300 shadow-lg shadow-blue-900/20"
+                  >
+                    💬 Comment nhanh (Facebook)
+                  </button>
+                </div>
               </div>
             )}
           </div>
