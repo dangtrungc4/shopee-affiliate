@@ -1,4 +1,4 @@
-import { useState, useCallback, useRef } from 'react'
+import { useState, useCallback, useRef, useEffect } from "react";
 
 const AFFILIATE_ID = '17355830344'
 const FB_POST_URL = "https://www.facebook.com/trungnguyen.dev.1803/posts/pfbid0nurMwD5WsuzuarhkEyhySBk6PzThZHCas2mJPoY6c6HKsK2iHc4SPgn1AXaNJ3uql"
