@@ -527,8 +527,8 @@ export default function App() {
                     onClick={() => handleCopy()}
                     className={`w-full flex items-center justify-center gap-2.5 py-3.5 rounded-xl font-bold text-sm transition-all duration-300 ${
                       copied
-                        ? 'bg-emerald-500/20 border border-emerald-500/30 text-emerald-400'
-                        : 'bg-white/10 hover:bg-white/15 border border-white/10 hover:border-white/20 text-white'
+                        ? 'bg-emerald-100 dark:bg-emerald-500/20 border border-emerald-200 dark:border-emerald-500/30 text-emerald-600 dark:text-emerald-400'
+                        : 'bg-slate-900 dark:bg-white/10 text-white hover:bg-slate-800 dark:hover:bg-white/15 border border-slate-900 dark:border-white/10'
                     }`}
                   >
                     {copied ? <IconCheck /> : <IconCopy />}
@@ -578,7 +578,7 @@ export default function App() {
                   <button
                     id="clear-history-btn"
                     onClick={() => { setHistory([]); setShowHistory(false) }}
-                    className="text-center text-xs text-white/20 hover:text-red-400/60 transition-colors duration-200 py-2"
+                    className="text-center text-xs opacity-20 hover:text-red-400 transition-colors duration-200 py-2"
                   >
                     Xóa lịch sử
                   </button>
@@ -612,12 +612,29 @@ export default function App() {
       </main>
 
       {/* ── Footer ── */}
-      <footer className="text-center py-5 pb-8 px-4">
-        <p className="text-xs text-white/20">
-          Ref ID: <span className="text-white/35 font-mono">{AFFILIATE_ID}</span>
-          &nbsp;·&nbsp;
-          <span className="text-shopee-orange/40">Shopee Link Tool</span>
-        </p>
+      <footer className="mt-auto py-10 px-6 border-t border-slate-200/50 dark:border-white/5 animate-fade-in">
+        <div className="max-w-xl mx-auto flex flex-col items-center gap-6">
+          <div className="flex flex-wrap items-center justify-center gap-x-4 gap-y-2">
+            <span className="px-2.5 py-1 rounded-full bg-slate-100 dark:bg-white/5 text-[10px] font-bold opacity-40 uppercase tracking-widest border border-slate-200 dark:border-white/10">
+              Ref ID: {AFFILIATE_ID}
+            </span>
+            <span className="text-xs opacity-30 font-medium">·</span>
+            <span className="text-xs font-bold text-shopee-orange opacity-60 uppercase tracking-widest">Shopee Link Tool</span>
+          </div>
+          
+          <p className="text-[11px] md:text-xs opacity-30 text-center max-w-sm leading-relaxed font-medium px-4">
+            Công cụ hỗ trợ chuyển đổi link tiện ích. Chúng tôi không trực thuộc Shopee. Mọi quyền lợi và chính sách áp dụng theo quy định của nền tảng Shopee.
+          </p>
+
+          <div className="flex flex-col items-center gap-2">
+            <p className="text-[10px] opacity-20 font-medium uppercase tracking-tight">
+              © {new Date().getFullYear()} Shopee Link Tool · Privacy & Terms
+            </p>
+            <p className="text-[10px] opacity-25 font-semibold flex items-center gap-1.5">
+              Made with <span className="text-red-500/80 animate-bounce-soft inline-block text-[8px]">❤️</span> by <span className="opacity-100 text-shopee-orange/80">Trung Nguyen</span>
+            </p>
+          </div>
+        </div>
       </footer>
     </div>
   )
