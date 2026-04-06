@@ -2,12 +2,13 @@ import { useState, useCallback, useRef } from 'react'
 
 const AFFILIATE_ID = '17355830344'
 const FB_POST_URL = "https://www.facebook.com/trungnguyen.dev.1803/posts/pfbid0nurMwD5WsuzuarhkEyhySBk6PzThZHCas2mJPoY6c6HKsK2iHc4SPgn1AXaNJ3uql"
-const COMMENT_TEMPLATE = `🔥 Deal ngon đây:
+const FB_APP_ID = "pfbid0nurMwD5WsuzuarhkEyhySBk6PzThZHCas2mJPoY6c6HKsK2iHc4SPgn1AXaNJ3uql"
+const COMMENT_TEMPLATE = `🔥 Deal ngon đây
+🔥 Link này đang có giá tốt nhất:
 👉 {LINK}
 
-#dealhot #review`
+#dealhot`;
 
-// ── helpers ──────────────────────────────────────────────────────────────────
 // ── helpers ──────────────────────────────────────────────────────────────────
 function parseShopeeLink(input) {
   if (!input?.trim()) return null
@@ -99,6 +100,18 @@ const IconHistory = () => (
   </svg>
 )
 
+const IconSun = () => (
+  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+    <circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
+  </svg>
+)
+
+const IconMoon = () => (
+  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+    <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+  </svg>
+)
+
 const IconShopee = () => (
   <svg width="28" height="28" viewBox="0 0 100 100" fill="none">
     <circle cx="50" cy="50" r="48" fill="#EE4D2D"/>
@@ -110,12 +123,12 @@ const IconShopee = () => (
 function Toast({ message, type, visible }) {
   return (
     <div
-      className={`fixed top-6 right-6 z-50 flex items-center gap-3 px-5 py-3.5 rounded-2xl transition-all duration-500 ${
+      className={`fixed top-6 right-6 z-50 flex items-center gap-3 px-5 py-3.5 rounded-2xl transition-all duration-500 shadow-xl ${
         visible ? 'opacity-100 translate-y-0' : 'opacity-0 -translate-y-4 pointer-events-none'
       } ${
         type === 'success'
-          ? 'bg-emerald-500/20 border border-emerald-500/30 text-emerald-400'
-          : 'bg-red-500/20 border border-red-500/30 text-red-400'
+          ? 'bg-emerald-50 text-emerald-600 border border-emerald-200 dark:bg-emerald-500/10 dark:border-emerald-500/30 dark:text-emerald-400'
+          : 'bg-red-50 text-red-600 border border-red-200 dark:bg-red-500/10 dark:border-red-500/30 dark:text-red-400'
       }`}
       style={{ backdropFilter: 'blur(20px)' }}
     >
@@ -136,15 +149,15 @@ function GuideOverlay({ visible, onClose }) {
       onClick={onClose}
     >
       <div 
-        className="glass-dark max-w-sm w-full rounded-3xl p-8 shadow-2xl animate-slide-up"
+        className="max-w-sm w-full rounded-3xl p-8 shadow-2xl animate-slide-up bg-white text-slate-900 dark:glass-dark dark:text-white"
         onClick={e => e.stopPropagation()}
       >
         <div className="text-center mb-6">
-          <div className="w-16 h-16 bg-blue-500/20 rounded-full flex items-center justify-center mx-auto mb-4">
+          <div className="w-16 h-16 bg-blue-500/10 dark:bg-blue-500/20 rounded-full flex items-center justify-center mx-auto mb-4">
             <span className="text-3xl">📋</span>
           </div>
-          <h3 className="text-xl font-bold text-white mb-2">Đã copy nội dung!</h3>
-          <p className="text-white/50 text-sm">Dán vào comment Facebook để hoàn tất:</p>
+          <h3 className="text-xl font-bold mb-2">Đã copy nội dung!</h3>
+          <p className="opacity-50 text-sm">Dán vào comment Facebook để hoàn tất:</p>
         </div>
 
         <div className="space-y-4 mb-8">
@@ -154,24 +167,24 @@ function GuideOverlay({ visible, onClose }) {
             { step: '3', text: 'Nhấn Enter' }
           ].map((item, idx) => (idx < 2 ? (
             <div key={item.step} className="flex items-center gap-4">
-              <div className="w-8 h-8 rounded-lg bg-white/5 border border-white/10 flex items-center justify-center shrink-0 text-white/40 text-xs font-bold">
+              <div className="w-8 h-8 rounded-lg bg-slate-100 dark:bg-white/5 border border-slate-200 dark:border-white/10 flex items-center justify-center shrink-0 opacity-60 text-xs font-bold">
                 {item.step}
               </div>
-              <p className="text-white/80 text-sm font-medium">{item.text}</p>
+              <p className="opacity-80 text-sm font-medium">{item.text}</p>
             </div>
           ) : (
             <div key={item.step} className="flex items-center gap-4">
-              <div className="w-8 h-8 rounded-lg bg-blue-500/20 border border-blue-500/30 flex items-center justify-center shrink-0 text-blue-400 text-xs font-bold">
+              <div className="w-8 h-8 rounded-lg bg-blue-500/10 dark:bg-blue-500/20 border border-blue-500/20 dark:border-blue-500/30 flex items-center justify-center shrink-0 text-blue-600 dark:text-blue-400 text-xs font-bold">
                 {item.step}
               </div>
-              <p className="text-blue-400 text-sm font-bold">{item.text}</p>
+              <p className="text-blue-600 dark:text-blue-400 text-sm font-bold">{item.text}</p>
             </div>
           )))}
         </div>
 
         <button
           onClick={onClose}
-          className="w-full py-3.5 rounded-xl bg-white text-black font-bold text-sm hover:bg-white/90 transition-all duration-200"
+          className="w-full py-3.5 rounded-xl bg-slate-900 text-white dark:bg-white dark:text-black font-bold text-sm hover:opacity-90 transition-all duration-200 shadow-lg shadow-black/5"
         >
           Đã hiểu
         </button>
@@ -183,22 +196,22 @@ function GuideOverlay({ visible, onClose }) {
 // ── History Item ──────────────────────────────────────────────────────────────
 function HistoryItem({ item, onCopy, onReuse }) {
   return (
-    <div className="group glass rounded-xl p-3.5 hover:border-white/20 transition-all duration-200 animate-fade-in">
+    <div className="group glass rounded-xl p-3.5 border-slate-200/50 hover:bg-white/40 dark:hover:border-white/20 transition-all duration-200 animate-fade-in shadow-sm hover:shadow-md">
       <div className="flex items-start justify-between gap-3 mb-2">
-        <p className="text-xs text-white/40 font-mono truncate flex-1">{item.original}</p>
-        <span className="text-white/20 text-xs shrink-0">{item.time}</span>
+        <p className="text-xs opacity-40 font-mono truncate flex-1">{item.original}</p>
+        <span className="opacity-20 text-xs shrink-0">{item.time}</span>
       </div>
-      <p className="text-xs text-orange-400/80 font-mono truncate mb-3">{item.affiliate}</p>
+      <p className="text-xs text-shopee-orange font-mono truncate mb-3">{item.affiliate}</p>
       <div className="flex gap-2">
         <button
           onClick={() => onReuse(item.original)}
-          className="flex-1 text-xs px-3 py-1.5 rounded-lg bg-white/5 hover:bg-white/10 text-white/60 hover:text-white/90 transition-all duration-200"
+          className="flex-1 text-xs px-3 py-1.5 rounded-lg bg-black/5 dark:bg-white/5 hover:bg-black/10 dark:hover:bg-white/10 opacity-60 hover:opacity-90 transition-all duration-200"
         >
           Dùng lại
         </button>
         <button
           onClick={() => onCopy(item.affiliate)}
-          className="flex-1 text-xs px-3 py-1.5 rounded-lg bg-shopee-orange/10 hover:bg-shopee-orange/20 text-shopee-orange transition-all duration-200"
+          className="flex-1 text-xs px-3 py-1.5 rounded-lg bg-shopee-orange/10 hover:bg-shopee-orange/20 text-shopee-orange font-bold transition-all duration-200"
         >
           Copy
         </button>
@@ -218,8 +231,26 @@ export default function App() {
   const [history, setHistory] = useState([])
   const [showHistory, setShowHistory] = useState(false)
   const [showGuide, setShowGuide] = useState(false)
+  const [theme, setTheme] = useState(() => {
+    if (typeof window !== 'undefined') {
+      return localStorage.getItem('theme') || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light')
+    }
+    return 'dark'
+  })
   const [toast, setToast] = useState({ visible: false, message: '', type: 'success' })
   const inputRef = useRef(null)
+
+  useEffect(() => {
+    const root = window.document.documentElement
+    if (theme === 'dark') {
+      root.classList.add('dark')
+    } else {
+      root.classList.remove('dark')
+    }
+    localStorage.setItem('theme', theme)
+  }, [theme])
+
+  const toggleTheme = () => setTheme(prev => prev === 'light' ? 'dark' : 'light')
 
   const showToast = useCallback((message, type = 'success') => {
     setToast({ visible: true, message, type })
@@ -340,10 +371,26 @@ export default function App() {
       showToast('Đã copy nội dung comment! 📋', 'success')
       setShowGuide(true)
       
-      // Delay to ensure user sees toast and clipboard is ready
-      setTimeout(() => {
+      const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent)
+      
+      if (isMobile) {
+        // Attempt to open the Facebook App via custom scheme
+        const fbDeepLink = `fb://facade/post?id=${FB_APP_ID}`
+        const start = Date.now()
+        
+        window.location.href = fbDeepLink
+        
+        // If after 1.2s the app hasn't opened (meaning timeout fires and we are still here), 
+        // fall back to the browser.
+        setTimeout(() => {
+          if (Date.now() - start < 1500) {
+            window.location.href = FB_POST_URL
+          }
+        }, 1200)
+      } else {
+        // On desktop, simply open in a new tab
         window.open(FB_POST_URL, '_blank')
-      }, 800)
+      }
     } catch (err) {
       showToast('Lỗi copy, vui lòng thử lại', 'error')
     }
@@ -355,28 +402,38 @@ export default function App() {
       <GuideOverlay visible={showGuide} onClose={() => setShowGuide(false)} />
 
       {/* ── Header ── */}
-      <header className="pt-10 pb-4 px-4 text-center animate-fade-in">
-        <div className="flex items-center justify-center gap-3 mb-4">
-          <div className="animate-pulse-glow rounded-full p-1">
-            <IconShopee />
+      <header className="pt-8 md:pt-12 pb-4 px-4 md:px-6 relative animate-fade-in">
+        <div className="max-w-xl mx-auto flex items-center justify-between gap-4">
+          <div className="flex items-center gap-3">
+            <div className="animate-pulse-glow rounded-full p-1 bg-white/5 dark:bg-transparent">
+              <IconShopee />
+            </div>
+            <h1 className="text-2xl md:text-4xl font-black tracking-tight leading-none">
+              <span className="text-gradient">Shopee</span>
+              <span className="opacity-90"> Link Tool</span>
+            </h1>
           </div>
-          <h1 className="text-3xl md:text-4xl font-black tracking-tight">
-            <span className="text-gradient">Shopee</span>
-            <span className="text-white/90"> Link Tool</span>
-          </h1>
+          
+          <button
+            onClick={toggleTheme}
+            className="p-3 rounded-2xl bg-white/50 dark:bg-white/5 border border-slate-200 dark:border-white/10 shadow-sm hover:shadow-md transition-all duration-300"
+            aria-label="Toggle theme"
+          >
+            {theme === 'light' ? <IconMoon /> : <IconSun />}
+          </button>
         </div>
       </header>
 
       {/* ── Main card ── */}
-      <main className="flex-1 flex items-start justify-center px-4 pb-10">
+      <main className="flex-1 flex items-start justify-center px-4 md:px-6 pb-12">
         <div className="w-full max-w-xl animate-slide-up">
 
           {/* Card */}
-          <div className="glass rounded-3xl p-6 md:p-8 shadow-2xl" style={{ boxShadow: '0 25px 60px rgba(0,0,0,0.5), 0 0 0 1px rgba(255,255,255,0.06)' }}>
+          <div className="glass rounded-3xl p-6 md:p-8 shadow-2xl dark:shadow-[0_25px_60px_rgba(0,0,0,0.5)] border-slate-200/50 dark:border-white/10" style={{ boxShadow: theme === 'dark' ? '0 25px 60px rgba(0,0,0,0.5), 0 0 0 1px rgba(255,255,255,0.06)' : '0 15px 40px rgba(0,0,0,0.05)' }}>
 
             {/* Input section */}
             <div className="mb-5">
-              <label htmlFor="shopee-input" className="block text-sm font-semibold text-white/70 mb-3 flex items-center gap-2">
+              <label htmlFor="shopee-input" className="block text-sm font-semibold opacity-70 mb-3 flex items-center gap-2">
                 <IconLink />
                 Link Shopee
               </label>
@@ -389,15 +446,15 @@ export default function App() {
                   onKeyDown={handleKeyDown}
                   placeholder="Dán link Shopee vào đây...&#10;VD: https://shopee.vn/san-pham-i.123456.789012&#10;Hoặc: https://s.shopee.vn/5VR9VnW1Kx"
                   rows={3}
-                  className={`w-full bg-black/30 border rounded-2xl px-4 py-3.5 text-sm text-white/90 placeholder-white/20 resize-none outline-none transition-all duration-300 input-glow font-mono leading-relaxed ${
-                    error ? 'border-red-500/50' : 'border-white/10 focus:border-shopee-orange/50'
+                  className={`w-full bg-slate-100/50 dark:bg-black/30 border rounded-2xl px-4 py-3.5 text-sm opacity-90 placeholder-slate-400 dark:placeholder-white/20 resize-none outline-none transition-all duration-300 input-glow font-mono leading-relaxed ${
+                    error ? 'border-red-500/50' : 'border-slate-200 dark:border-white/10 focus:border-shopee-orange/50'
                   }`}
                 />
                 {input && (
                   <button
                     id="clear-input-btn"
                     onClick={handleClear}
-                    className="absolute top-3 right-3 p-1.5 rounded-lg bg-white/5 hover:bg-white/10 text-white/30 hover:text-white/70 transition-all duration-200"
+                    className="absolute top-3 right-3 p-1.5 rounded-lg bg-black/5 dark:bg-white/5 hover:bg-black/10 dark:hover:bg-white/10 opacity-30 hover:opacity-70 transition-all duration-200"
                     aria-label="Xóa input"
                   >
                     <IconTrash />
@@ -417,7 +474,7 @@ export default function App() {
               <button
                 id="paste-btn"
                 onClick={handlePaste}
-                className="px-4 py-3 glass rounded-xl text-sm text-white/60 hover:text-white/90 hover:border-white/20 transition-all duration-200 font-medium"
+                className="px-4 py-3 glass rounded-xl text-sm opacity-60 hover:opacity-90 border-slate-200 dark:border-white/10 hover:border-slate-300 dark:hover:border-white/20 transition-all duration-200 font-medium whitespace-nowrap"
               >
                 📋 Paste
               </button>
@@ -448,17 +505,17 @@ export default function App() {
             {/* Result section */}
             {result && (
               <div className="animate-bounce-soft">
-                <div className="result-glow bg-emerald-950/40 border border-emerald-500/20 rounded-2xl p-4 mb-3">
+                <div className="result-glow bg-emerald-50 dark:bg-emerald-950/40 border border-emerald-200 dark:border-emerald-500/20 rounded-2xl p-4 mb-3">
                   <div className="flex items-center justify-between mb-2">
-                    <span className="text-xs font-semibold text-emerald-400 flex items-center gap-1.5">
-                      <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse inline-block" />
+                    <span className="text-xs font-semibold text-emerald-600 dark:text-emerald-400 flex items-center gap-1.5">
+                      <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse inline-block" />
                       Link Rút Gọn (Đã tối ưu voucher)
                     </span>
-                    <span className="text-[10px] px-1.5 py-0.5 rounded bg-emerald-500/20 text-emerald-300 font-bold uppercase tracking-wider">High Compatibility</span>
+                    <span className="text-[10px] px-1.5 py-0.5 rounded bg-emerald-100 dark:bg-emerald-500/20 text-emerald-600 dark:text-emerald-300 font-bold uppercase tracking-wider">High Compatibility</span>
                   </div>
                   <p
                     id="affiliate-result"
-                    className="text-xs font-mono text-emerald-300/90 break-all leading-relaxed select-all"
+                    className="text-xs font-mono text-emerald-700 dark:text-emerald-300/90 break-all leading-relaxed select-all"
                   >
                     {result}
                   </p>
@@ -496,12 +553,12 @@ export default function App() {
               <button
                 id="toggle-history-btn"
                 onClick={() => setShowHistory(v => !v)}
-                className="w-full flex items-center justify-between px-4 py-3 glass rounded-2xl text-sm text-white/50 hover:text-white/80 transition-all duration-200 hover:border-white/15"
+                className="w-full flex items-center justify-between px-4 py-3 glass rounded-2xl text-sm opacity-50 hover:opacity-80 transition-all duration-200 border-slate-200 dark:border-white/15"
               >
                 <span className="flex items-center gap-2">
                   <IconHistory />
                   Lịch sử chuyển đổi
-                  <span className="bg-shopee-orange/20 text-shopee-orange text-xs px-2 py-0.5 rounded-full font-bold">
+                  <span className="bg-shopee-orange/10 dark:bg-shopee-orange/20 text-shopee-orange text-xs px-2 py-0.5 rounded-full font-bold">
                     {history.length}
                   </span>
                 </span>
@@ -531,8 +588,8 @@ export default function App() {
           )}
 
           {/* How-to guide */}
-          <div className="mt-6 glass rounded-2xl p-5">
-            <h2 className="text-xs font-bold text-white/50 uppercase tracking-widest mb-4">Hướng dẫn sử dụng</h2>
+          <div className="mt-6 glass rounded-2xl p-5 border-slate-200 dark:border-white/10">
+            <h2 className="text-xs font-bold opacity-50 uppercase tracking-widest mb-4">Hướng dẫn sử dụng</h2>
             <div className="flex flex-col gap-3">
               {[
                 { step: '1', icon: '🔗', text: 'Copy link sản phẩm trên app hoặc website Shopee' },
@@ -540,12 +597,12 @@ export default function App() {
                 { step: '3', icon: '💰', text: 'Copy link rút gọn và chia sẻ để nhận ưu đãi' },
               ].map(({ step, icon, text }) => (
                 <div key={step} className="flex items-start gap-3">
-                  <div className="w-7 h-7 rounded-xl bg-shopee-orange/15 border border-shopee-orange/20 flex items-center justify-center shrink-0">
+                  <div className="w-7 h-7 rounded-xl bg-shopee-orange/10 dark:bg-shopee-orange/15 border border-shopee-orange/20 flex items-center justify-center shrink-0">
                     <span className="text-shopee-orange text-xs font-black">{step}</span>
                   </div>
                   <div className="flex items-start gap-2 pt-0.5">
                     <span>{icon}</span>
-                    <p className="text-xs text-white/45 leading-relaxed">{text}</p>
+                    <p className="text-xs opacity-50 leading-relaxed">{text}</p>
                   </div>
                 </div>
               ))}

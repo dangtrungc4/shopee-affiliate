@@ -5,28 +5,35 @@
 @layer base {
   * {
     box-sizing: border-box;
+    @apply transition-colors duration-300 ease-in-out;
   }
 
   body {
     font-family: 'Inter', system-ui, sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+    @apply bg-slate-50 text-slate-900 dark:bg-[#0a0a0f] dark:text-white min-h-screen;
   }
 }
 
 @layer utilities {
   .glass {
-    background: rgba(255, 255, 255, 0.05);
+    background: rgba(255, 255, 255, 0.7);
     backdrop-filter: blur(20px);
     -webkit-backdrop-filter: blur(20px);
-    border: 1px solid rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(0, 0, 0, 0.05);
+  }
+
+  .dark .glass {
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.08);
   }
 
   .glass-dark {
-    background: rgba(0, 0, 0, 0.3);
+    background: rgba(0, 0, 0, 0.6);
     backdrop-filter: blur(20px);
     -webkit-backdrop-filter: blur(20px);
-    border: 1px solid rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.1);
   }
 
   .text-gradient {
@@ -37,6 +44,13 @@
   }
 
   .bg-mesh {
+    background-color: #f8fafc;
+    background-image:
+      radial-gradient(ellipse at 20% 20%, rgba(238, 77, 45, 0.08) 0%, transparent 50%),
+      radial-gradient(ellipse at 80% 80%, rgba(59, 130, 246, 0.05) 0%, transparent 50%);
+  }
+
+  .dark .bg-mesh {
     background-color: #0a0a0f;
     background-image:
       radial-gradient(ellipse at 20% 20%, rgba(238, 77, 45, 0.15) 0%, transparent 50%),
@@ -47,10 +61,18 @@
   .shimmer-text {
     background: linear-gradient(
       90deg,
-      rgba(255, 255, 255, 0.4) 0%,
-      rgba(255, 255, 255, 0.9) 40%,
-      rgba(255, 255, 255, 0.4) 80%
+      rgba(0, 0, 0, 0.1) 0%,
+      rgba(0, 0, 0, 0.3) 40%,
+      rgba(0, 0, 0, 0.1) 80%
     );
+    .dark & {
+      background: linear-gradient(
+        90deg,
+        rgba(255, 255, 255, 0.4) 0%,
+        rgba(255, 255, 255, 0.9) 40%,
+        rgba(255, 255, 255, 0.4) 80%
+      );
+    }
     background-size: 200% auto;
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
@@ -59,15 +81,15 @@
   }
 
   .btn-glow:hover {
-    box-shadow: 0 0 30px rgba(238, 77, 45, 0.5), 0 0 60px rgba(238, 77, 45, 0.2);
+    box-shadow: 0 0 30px rgba(238, 77, 45, 0.4), 0 0 60px rgba(238, 77, 45, 0.1);
   }
 
   .input-glow:focus {
-    box-shadow: 0 0 0 2px rgba(238, 77, 45, 0.4), 0 0 20px rgba(238, 77, 45, 0.15);
+    box-shadow: 0 0 0 2px rgba(238, 77, 45, 0.3), 0 0 15px rgba(238, 77, 45, 0.1);
   }
 
   .result-glow {
-    box-shadow: 0 0 30px rgba(34, 197, 94, 0.15), inset 0 1px 0 rgba(255,255,255,0.05);
+    box-shadow: 0 0 30px rgba(34, 197, 94, 0.1), inset 0 1px 0 rgba(255,255,255,0.05);
   }
 }
 
@@ -76,20 +98,20 @@
   width: 6px;
 }
 ::-webkit-scrollbar-track {
-  background: rgba(255,255,255,0.05);
+  background: transparent;
 }
 ::-webkit-scrollbar-thumb {
-  background: rgba(238, 77, 45, 0.4);
-  border-radius: 3px;
-}
-::-webkit-scrollbar-thumb:hover {
-  background: rgba(238, 77, 45, 0.7);
+  @apply bg-shopee-orange/20 hover:bg-shopee-orange/40 rounded-full;
 }
 
 /* Particle dots background */
 .dot-pattern {
-  background-image: radial-gradient(rgba(255,255,255,0.04) 1px, transparent 1px);
+  background-image: radial-gradient(rgba(0,0,0,0.03) 1px, transparent 1px);
   background-size: 32px 32px;
+}
+
+.dark .dot-pattern {
+  background-image: radial-gradient(rgba(255,255,255,0.04) 1px, transparent 1px);
 }
 
 /* Animations */
