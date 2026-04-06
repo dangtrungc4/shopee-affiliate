@@ -295,7 +295,7 @@ export default function App() {
     try {
       await navigator.clipboard.writeText(text)
       setCopied(true)
-      showToast('Đã copy link affiliate! 🎉', 'success')
+      showToast('Đã copy link rút gọn! 🎉', 'success')
       setTimeout(() => setCopied(false), 2500)
     } catch {
       showToast('Không thể copy, vui lòng copy thủ công', 'error')
@@ -362,7 +362,7 @@ export default function App() {
           </div>
           <h1 className="text-3xl md:text-4xl font-black tracking-tight">
             <span className="text-gradient">Shopee</span>
-            <span className="text-white/90"> Affiliate</span>
+            <span className="text-white/90"> Link Tool</span>
           </h1>
         </div>
       </header>
@@ -452,7 +452,7 @@ export default function App() {
                   <div className="flex items-center justify-between mb-2">
                     <span className="text-xs font-semibold text-emerald-400 flex items-center gap-1.5">
                       <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse inline-block" />
-                      Affiliate Link (Đã tối ưu voucher)
+                      Link Rút Gọn (Đã tối ưu voucher)
                     </span>
                     <span className="text-[10px] px-1.5 py-0.5 rounded bg-emerald-500/20 text-emerald-300 font-bold uppercase tracking-wider">High Compatibility</span>
                   </div>
@@ -475,7 +475,7 @@ export default function App() {
                     }`}
                   >
                     {copied ? <IconCheck /> : <IconCopy />}
-                    {copied ? 'Đã copy!' : 'Copy Link Affiliate'}
+                    {copied ? 'Đã copy!' : 'Copy Link Rút Gọn'}
                   </button>
 
                   <button
@@ -537,7 +537,7 @@ export default function App() {
               {[
                 { step: '1', icon: '🔗', text: 'Copy link sản phẩm trên app hoặc website Shopee' },
                 { step: '2', icon: '📋', text: 'Dán link vào ô nhập phía trên và nhấn Convert' },
-                { step: '3', icon: '💰', text: 'Copy affiliate link và chia sẻ để kiếm hoa hồng' },
+                { step: '3', icon: '💰', text: 'Copy link rút gọn và chia sẻ để nhận ưu đãi' },
               ].map(({ step, icon, text }) => (
                 <div key={step} className="flex items-start gap-3">
                   <div className="w-7 h-7 rounded-xl bg-shopee-orange/15 border border-shopee-orange/20 flex items-center justify-center shrink-0">
@@ -557,9 +557,9 @@ export default function App() {
       {/* ── Footer ── */}
       <footer className="text-center py-5 pb-8 px-4">
         <p className="text-xs text-white/20">
-          Affiliate ID: <span className="text-white/35 font-mono">{AFFILIATE_ID}</span>
+          Ref ID: <span className="text-white/35 font-mono">{AFFILIATE_ID}</span>
           &nbsp;·&nbsp;
-          <span className="text-shopee-orange/40">Shopee Affiliate Tool</span>
+          <span className="text-shopee-orange/40">Shopee Link Tool</span>
         </p>
       </footer>
     </div>
